@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>Weatherly | City weather dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Weatherly home">
+        <span class="brand-mark" aria-hidden="true">◈</span>
+        <span>weatherly</span>
+      </a>
+      <span class="topbar-note"><span class="live-dot" aria-hidden="true"></span> CITY WEATHER DASHBOARD</span>
+    </header>
+
+    <div class="dashboard-layout">
+      <aside class="search-panel" aria-label="Find a city">
+        <div class="search-intro">
+          <p class="eyebrow">YOUR WEATHER</p>
+          <h1>Find a city</h1>
+          <p>Get a quick look at current conditions around the world.</p>
+        </div>
+
+        <form class="search" id="search-form" role="search">
+          <label for="city-input">CITY NAME</label>
+          <span class="search-input-wrap">
+            <span class="search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.2 4.2"></path></svg>
+            </span>
+            <input id="city-input" name="city" type="search" placeholder="e.g. Tokyo" autocomplete="off" maxlength="100" required>
+          </span>
+          <button type="submit" id="search-button">Search weather <span aria-hidden="true">→</span></button>
+        </form>
+
+        <p class="message" id="message" role="status" aria-live="polite">Enter a city to get started.</p>
+
+        <div class="search-tip">
+          <span class="tip-icon" aria-hidden="true">i</span>
+          <p>Try a city name like <strong>London</strong> or <strong>Tokyo</strong>.</p>
+        </div>
+      </aside>
+
+      <section class="dashboard" aria-labelledby="page-title">
+        <div class="dashboard-heading">
+          <div>
+            <p class="eyebrow">WEATHER OVERVIEW</p>
+            <h2 id="page-title">City dashboard</h2>
+          </div>
+          <span class="current-label"><span class="live-dot" aria-hidden="true"></span> CURRENT WEATHER</span>
+        </div>
+
+        <section class="empty-state" id="empty-state" aria-label="Search for a city to get started">
+          <div class="sky-art" aria-hidden="true">
+            <span class="sun-art"></span>
+            <span class="cloud-art cloud-back"></span>
+            <span class="cloud-art cloud-front"></span>
+          </div>
+          <div>
+            <p class="empty-kicker">READY WHEN YOU ARE</p>
+            <h3>Your weather, at a glance.</h3>
+            <p>Search a city to see its temperature, humidity, and wind.</p>
+          </div>
+        </section>
+
+        <section class="weather-card" id="weather-card" aria-label="Current weather" hidden>
+          <div class="weather-main">
+            <div class="location">
+              <span class="location-pin" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M19 10.1c0 5.2-7 11-7 11s-7-5.8-7-11a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.2"></circle></svg>
+              </span>
+              <div>
+                <h3 id="city-name">—</h3>
+                <p id="country-name">—</p>
+              </div>
+            </div>
+            <div class="temperature-wrap">
+              <span class="weather-icon" id="weather-icon" role="img" aria-label="Weather icon">🌤️</span>
+              <div class="temperature"><span id="temperature">—</span><span class="degree">°</span></div>
+            </div>
+            <p class="condition" id="condition">—</p>
+            <p class="feels-like">Feels like <span id="feels-like">—</span>°C</p>
+          </div>
+
+          <div class="details">
+            <article class="detail-card">
+              <span class="detail-icon humidity-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5S5.5 10 5.5 14.8a6.5 6.5 0 0 0 13 0C18.5 10 12 3.5 12 3.5Z"></path><path d="M9.3 15.2a2.8 2.8 0 0 0 2.8 2.8"></path></svg>
+              </span>
+              <div><p class="detail-label">HUMIDITY</p><p class="detail-value"><span id="humidity">—</span><span class="detail-unit">%</span></p></div>
+            </article>
+            <article class="detail-card">
+              <span class="detail-icon wind-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 8h12.5a2.5 2.5 0 1 0-2.5-2.5"></path><path d="M3 12h16a2 2 0 1 1-2 2"></path><path d="M3 16h9a2 2 0 1 1-2 2"></path></svg>
+              </span>
+              <div><p class="detail-label">WIND SPEED</p><p class="detail-value"><span id="wind-speed">—</span><span class="detail-unit">km/h</span></p></div>
+            </article>
+            <article class="detail-card">
+              <span class="detail-icon condition-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+              </span>
+              <div><p class="detail-label">CONDITION</p><p class="detail-value condition-value" id="condition-detail">—</p></div>
+            </article>
+          </div>
+        </section>
+
+        <footer class="footer">Live conditions, powered by Open-Meteo</footer>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
